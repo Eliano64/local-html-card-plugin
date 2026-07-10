@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Example Card</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1e1e1e;
+    --muted: #666666;
+    --accent: #7c3aed;
+    --accent-text: #ffffff;
+    --card-bg: #f5f3ff;
+    --border: #e5e0f0;
+    --tag-bg: #ede9fe;
+    --tag-text: #5b21b6;
+    --tab-bg: #f8f7fa;
+    --tab-active: #ffffff;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1e1e1e;
+      --text: #d4d4d4;
+      --muted: #999999;
+      --accent: #a78bfa;
+      --accent-text: #1e1e1e;
+      --card-bg: #2d2838;
+      --border: #3d3750;
+      --tag-bg: #3d3260;
+      --tag-text: #c4b5fd;
+      --tab-bg: #252230;
+      --tab-active: #2d2838;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px;
+    line-height: 1.6;
+    transition: background .2s, color .2s;
+  }
+
+  h1 { font-size: 1.25rem; margin-bottom: 16px; }
+
+  p { color: var(--muted); font-size: .9rem; margin-bottom: 20px; }
+
+  .tabs { display: flex; gap: 4px; margin-bottom: 0; }
+  .tab {
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    background: var(--tab-bg);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: .82rem;
+    transition: background .15s, color .15s;
+  }
+  .tab.active { background: var(--tab-active); color: var(--accent); font-weight: 600; }
+
+  .panel {
+    display: none;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 0 6px 6px 6px;
+    background: var(--card-bg);
+  }
+  .panel.active { display: block; }
+
+  code {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: .85em;
+  }
+
+  .param-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+  .param-table th, .param-table td {
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .param-table th { color: var(--muted); font-weight: 500; }
+  .param-table td:first-child { font-family: monospace; color: var(--accent); }
+
+  .badge {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 99px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: .75rem;
+    margin-right: 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>&#x1f4c7; Local HTML Card</h1>
+<p>This card is an embedded HTML file rendered inside Obsidian. It supports light and dark themes automatically.</p>
+
+<div class="tabs">
+  <button class="tab active" data-tab="0">Usage</button>
+  <button class="tab" data-tab="1">Parameters</button>
+  <button class="tab" data-tab="2">Theme</button>
+</div>
+
+<div class="panel active">
+  <p><span class="badge">code block</span> <code>```local-html-card</code></p>
+  <p><span class="badge">link</span> <code>[html-card height=720](path/to/file.html)</code></p>
+</div>
+
+<div class="panel">
+  <table class="param-table">
+    <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+    <tr><td>height</td><td>760</td><td>Initial iframe height (px)</td></tr>
+    <tr><td>controls</td><td>true</td><td>Show +/-/R toolbar</td></tr>
+    <tr><td>step</td><td>80</td><td>Height step per click</td></tr>
+    <tr><td>mode</td><td>inline</td><td>inline | resource</td></tr>
+  </table>
+</div>
+
+<div class="panel">
+  <p>Uses <code>prefers-color-scheme</code> or Obsidian CSS variables. No external dependencies.</p>
+  <p style="margin-top:8px">Current theme: <strong id="theme-label">light</strong></p>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll(".tab");
+  const panels = document.querySelectorAll(".panel");
+  const label = document.getElementById("theme-label");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      panels.forEach(p => p.classList.remove("active"));
+      tab.classList.add("active");
+      panels[Number(tab.dataset.tab)].classList.add("active");
+    });
+  });
+
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  label.textContent = mq.matches ? "dark" : "light";
+  mq.addEventListener("change", e => { label.textContent = e.matches ? "dark" : "light"; });
+</script>
+
+</body>
+</html>

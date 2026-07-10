@@ -1,0 +1,10 @@
+{
+  "id": "local-html-card",
+  "name": "Local HTML Card",
+  "version": "0.1.7",
+  "minAppVersion": "1.5.0",
+  "description": "Embed local vault HTML slides as clickable study cards from Markdown code blocks or html-card links.",
+  "author": "Local",
+  "authorUrl": "",
+  "isDesktopOnly": false
+}

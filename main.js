@@ -324,6 +324,20 @@ module.exports = class LocalHtmlCardPlugin extends Plugin {
     this.registerMarkdownPostProcessor(async (el, ctx) => {
       await this.processHtmlCardLinks(el, ctx);
     }, 100);
+
+    this.registerDomEvent(window, "message", async (event) => {
+      const data = event.data;
+      if (!data || data.type !== "local-html-card-open" || typeof data.file !== "string") return;
+      const frames = Array.from(document.querySelectorAll(".local-html-card iframe"));
+      if (!frames.some(frame => frame.contentWindow === event.source)) return;
+      const file = this.app.metadataCache.getFirstLinkpathDest(data.file, "");
+      if (!file) return;
+      const leaf = this.app.workspace.getLeaf(false);
+      await leaf.openFile(file);
+      if (typeof data.heading === "string" && data.heading.trim()) {
+        leaf.setEphemeralState({ subpath: "#" + data.heading.trim() });
+      }
+    });
   }
 
   async processHtmlCardLinks(el, ctx) {

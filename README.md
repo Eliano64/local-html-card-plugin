@@ -13,16 +13,6 @@ Embed local HTML slides and interactive cards in Obsidian notes. Renders as a re
 
 The link text must start with `html-card`. The link target must end in `.html` or `.htm`.
 
-### Code block(deprecated)
-
-
-```local-html-card
-./assets/example.html
-height=720
-```
-
-The first line without a `=` is treated as the file path. Paths are resolved relative to the current note.
-
 ## Parameters
 
 | Parameter   | Default           | Description                                                               |

@@ -7,9 +7,9 @@ Embed local HTML slides and interactive cards in Obsidian notes. Renders as a re
 ### Markdown link (recommend)
 
 
-
+```markdown
 [html-card height=720](./assets/example.html)
-
+```
 
 The link text must start with `html-card`. The link target must end in `.html` or `.htm`.
 
